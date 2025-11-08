@@ -2,51 +2,51 @@ const workouts = [
   {
     name: "Full Body Quick Burn",
     exercises: [
-      "20 Jumping Jacks",
-      "15 Bodyweight Squats",
-      "10 Push-ups",
-      "30-second Plank",
-      "15 Lunges (each leg)"
+      { name: "Jumping Jacks", guide: "Stand upright with legs together, arms at your sides. Jump while spreading your legs and arms, then return to start." },
+      { name: "Bodyweight Squats", guide: "Keep your feet shoulder-width apart and lower down as if sitting back into a chair." },
+      { name: "Push-ups", guide: "Keep your body in a straight line and lower until your chest nearly touches the floor." },
+      { name: "Plank (30 sec)", guide: "Hold your body in a straight line on your forearms and toes." },
+      { name: "Lunges", guide: "Step forward with one leg and lower your hips until both knees are bent at about 90°." }
     ]
   },
   {
     name: "Core Crusher",
     exercises: [
-      "20 Russian Twists",
-      "15 Leg Raises",
-      "30-second Plank",
-      "20 Bicycle Crunches",
-      "15 Mountain Climbers"
+      { name: "Russian Twists", guide: "Sit with knees bent, lean back slightly, and twist your torso from side to side." },
+      { name: "Leg Raises", guide: "Lie flat and lift your legs until they’re perpendicular to the floor." },
+      { name: "Plank (30 sec)", guide: "Engage your core and hold steady." },
+      { name: "Bicycle Crunches", guide: "Alternate touching your elbows to opposite knees in a pedaling motion." },
+      { name: "Mountain Climbers", guide: "From a plank, drive your knees alternately toward your chest." }
     ]
   },
   {
     name: "Cardio Blast",
     exercises: [
-      "30 Jumping Jacks",
-      "20 High Knees",
-      "10 Burpees",
-      "20 Butt Kicks",
-      "30-second Rest and Repeat"
+      { name: "Jumping Jacks", guide: "Keep your movements controlled; land softly on your feet." },
+      { name: "High Knees", guide: "Run in place, lifting your knees up to hip height." },
+      { name: "Burpees", guide: "Start standing, drop to a squat, kick feet back, do a push-up, jump up explosively." },
+      { name: "Butt Kicks", guide: "Run in place kicking your heels toward your glutes." },
+      { name: "Rest (30 sec)", guide: "Catch your breath and drink water." }
     ]
   },
   {
     name: "Upper Body Strength",
     exercises: [
-      "10 Push-ups",
-      "15 Shoulder Taps",
-      "10 Tricep Dips (on a chair)",
-      "20 Arm Circles",
-      "30-second Rest"
+      { name: "Push-ups", guide: "Hands shoulder-width apart, lower and push back up." },
+      { name: "Shoulder Taps", guide: "From a plank, tap each shoulder with the opposite hand, keeping hips steady." },
+      { name: "Tricep Dips", guide: "Use a chair, lower yourself by bending elbows, and push back up." },
+      { name: "Arm Circles", guide: "Extend arms and make small circles forward and backward." },
+      { name: "Rest (30 sec)", guide: "Breathe deeply to recover." }
     ]
   },
   {
     name: "Lower Body Focus",
     exercises: [
-      "15 Squats",
-      "15 Lunges (each leg)",
-      "20 Calf Raises",
-      "30-second Wall Sit",
-      "10 Jump Squats"
+      { name: "Squats", guide: "Keep knees behind toes, chest up, and push through your heels." },
+      { name: "Lunges", guide: "Alternate legs and maintain balance by keeping your torso upright." },
+      { name: "Calf Raises", guide: "Stand tall, lift heels off the ground, then lower slowly." },
+      { name: "Wall Sit", guide: "Slide down a wall until knees are at 90°, hold for 30 seconds." },
+      { name: "Jump Squats", guide: "Explode upward from a squat position and land softly." }
     ]
   }
 ];
@@ -69,14 +69,18 @@ generateBtn.addEventListener("click", () => {
   workoutDisplay.innerHTML = `
     <h2>${randomWorkout.name}</h2>
     <ul>
-      ${randomWorkout.exercises.map(ex => `<li>${ex}</li>`).join("")}
+      ${randomWorkout.exercises.map(ex => `
+        <li>
+          <strong>${ex.name}</strong><br>
+          <span class="guide">${ex.guide}</span>
+        </li>
+      `).join("")}
     </ul>
   `;
 
   markDoneBtn.classList.remove("hidden");
 });
 
-// Save progress when workout completed
 markDoneBtn.addEventListener("click", () => {
   if (!currentWorkout) return;
 
@@ -92,7 +96,6 @@ markDoneBtn.addEventListener("click", () => {
   loadProgress();
 });
 
-// Display saved progress
 function loadProgress() {
   const progress = JSON.parse(localStorage.getItem("homefitProgress")) || [];
   if (progress.length === 0) {
@@ -108,7 +111,6 @@ function loadProgress() {
     .join("");
 }
 
-// Reset all progress
 resetBtn.addEventListener("click", () => {
   if (confirm("Are you sure you want to reset your progress?")) {
     localStorage.removeItem("homefitProgress");
